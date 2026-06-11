@@ -2408,6 +2408,22 @@ class AdvancedBot(BaseBot):
             await self.highrise.chat(f"خطا در توقف رقص برای @{target_username}: {str(e)}")
             logger.error(f"خطا در cmd_partys برای {target_username}: {str(e)}")
 
+async def handle_ping(request):
+    return aiohttp.web.Response(text="Bot is Alive!")
+
+async def start_background_web_server():
+    try:
+        app = aiohttp.web.Application()
+        app.router.add_get('/', handle_ping)
+        runner = aiohttp.web.AppRunner(app)
+        await runner.setup()
+        port = int(os.getenv("PORT", 8080))
+        site = aiohttp.web.TCPSite(runner, '0.0.0.0', port)
+        await site.start()
+        logger.info(f"وب‌سرور زنده نگهدارنده روی پورت {port} فعال شد.")
+    except Exception as e:
+        logger.error(f"خطا در اجرای وب‌سرور پس‌زمینه: {e}")
+    
 async def main():
     logger.info("تلاش برای بارگذاری متغیرهای محیطی...")
     room_id = os.getenv("ROOM_ID", "6a29bcb958070610178270ed")
@@ -2419,7 +2435,9 @@ async def main():
     
     logger.info(f"ROOM_ID: {room_id}")
     logger.info(f"API_TOKEN: {api_token}")
-    
+
+        create_task(start_background_web_server())
+
     bot_def = BotDefinition(room_id=room_id, api_token=api_token, bot=AdvancedBot())
     
     max_reconnect_attempts = 5

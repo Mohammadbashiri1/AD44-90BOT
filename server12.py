@@ -2436,7 +2436,7 @@ async def main():
     logger.info(f"ROOM_ID: {room_id}")
     logger.info(f"API_TOKEN: {api_token}")
 
-        create_task(start_background_web_server())
+    create_task(start_background_web_server())
 
     bot_def = BotDefinition(room_id=room_id, api_token=api_token, bot=AdvancedBot())
     

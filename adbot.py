@@ -79,10 +79,8 @@ class AdvancedBot(BaseBot):
             "!freeze": self.cmd_freeze,
             "!unfreeze": self.cmd_unfreeze,
             "!party": self.cmd_party,
-            "!partys": self.cmd_partys,
-            "!changeroom": self.cmd_changeroom
-      }
-
+            "!partys": self.cmd_partys
+        }
         self.emotes = {
             "1": "idle_zombie",
             "2": "idle_layingdown2",
@@ -1988,7 +1986,7 @@ class AdvancedBot(BaseBot):
         except Exception as e:
             await self.highrise.chat(self.get_message("teleport_error", error=str(e)))
             logger.error(f"خطا در cmd_down: {e}")
-    
+
     async def cmd_ban(self, user: User, message: str):
         if user.username.lower() not in self.config["admin_usernames"]:
             await self.highrise.chat(self.get_message("no_permission"))
@@ -2436,7 +2434,7 @@ async def main():
     logger.info("تلاش برای بارگذاری متغیرهای محیطی...")
     room_id = os.getenv("ROOM_ID", "68e771922d585712212e8070")
     api_token = os.getenv("API_TOKEN", "9a089b7f9bb1f38a943a6add2af7e1823a709e51119a7f9c7f870b443bb8c4cc")
-                
+    
     if not room_id or not api_token:
         logger.error("ROOM_ID یا API_TOKEN تنظیم نشده‌اند.")
         return

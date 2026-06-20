@@ -2320,12 +2320,12 @@ class AdvancedBot(BaseBot):
             dance_input = parts[2]
         # حل مشکل پیدا کردن دنس‌ها بدون ارور دادن
         available_emotes = getattr(self, "emotes", getattr(self, "emote_mapping", {}))
-        if dance_input not in available_emotes:
+        if dance_input not in self.emote_mapping:
             await self.highrise.chat("شماره danc معتبر نیست!")
             return
-        emote = available_emotes[dance_input]
+        emote = self.emote_mapping[dance_input]
         duration = self.emote_durations.get(emote, 7.5)
-        
+
         room_users = await self.highrise.get_room_users()
             
         # حل مشکل پیدا کردن دنس‌ها بدون ارور دادن

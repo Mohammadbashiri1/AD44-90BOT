@@ -1230,23 +1230,25 @@ class AdvancedBot(BaseBot):
             logger.error(f"خطا در پردازش تیپ از {sender.username} به {receiver.username}: {e}")
             await self.highrise.chat(f"خطا در پردازش تیپ از @{sender.username} به @{receiver.username}: {e}")
 
-    async def start_dance(self, user: User, emote: str):
+        async def start_dance(self, user: User, emote: str):
         username = user.username.lower()
         await self.stop_dance(user)
         self.user_dances[username] = emote
         duration = self.emote_durations.get(emote, 7.5)
 
-    async def dance_loop():
+        async def dance_loop():
             try:
                 while self.user_dances.get(username) == emote:
-                    await self.highrise.send_animation(emote, user.id)
-                    await sleep(duration + 1.0)
+                    await self.highrise.send_emote(emote, user.id)
+                    await sleep(duration)
             except CancelledError:
                 logger.info(f"وظیفه رقص برای {username} لغو شد.")
             except Exception as e:
                 logger.error(f"خطا در حلقه رقص برای {username}: {e}")
 
-        self.dance_tasks[username] = create_task(dance_loop())
+        task = create_task(dance_loop())
+        self.dance_tasks[username] = task
+        logger.info(f"کاربر {username} شروع به رقص {emote} کرد.")
 
     async def stop_dance(self, user: User):
         username = user.username.lower()

@@ -1207,8 +1207,8 @@ class AdvancedBot(BaseBot):
         msg = message.strip().lower()
         self.user_scores[username] = self.user_scores.get(username, 0) + 2
 
-        if msg in self.emotes:
-            await self.start_dance(user, self.emotes[msg])
+        if msg in self.emote_mapping:
+            await self.start_dance(user, self.emote_mapping[msg])
         elif msg == "stop":
             await self.stop_dance(user)
         elif msg.startswith("!"):
@@ -1236,15 +1236,17 @@ class AdvancedBot(BaseBot):
         self.user_dances[username] = emote
         duration = self.emote_durations.get(emote, 7.5)
 
-    async def dance_loop():
-        try:
-            while self.user_dances.get(username) == emote:
-                await self.highrise.send_animation(emote, user.id)
-                await sleep(duration + 1.5)
-        except CancelledError:
-            logger.info(f"وظیفه رقص برای {username} لغو شد.")
-        except Exception as e:
-            logger.error(f"خطا در حلقه رقص برای {username}: {e}")
+        async def dance_loop():
+            try:
+                while self.user_dances.get(username) == emote:
+                    await self.highrise.send_emote(emote, user.id)
+                    await sleep(duration + 1.5)
+            except CancelledError:
+                logger.info(f"وظیفه رقص برای {username} لغو شد.")
+            except Exception as e:
+                logger.error(f"خطا در حلقه رقص برای {username}: {e}")
+
+        self.dance_tasks[username] = create_task(dance_loop())
 
     async def stop_dance(self, user: User):
         username = user.username.lower()
@@ -2346,7 +2348,7 @@ class AdvancedBot(BaseBot):
                     u_username = u.username.lower()
                     try:
                         while u_username in self.party_dances and self.party_dances[u_username][0] == _emote:
-                            await self.highrise.send_animation(str(_emote), u.id)
+                            await self.highrise.send_emote(_emote, u.id)
                             await sleep(_duration + 1.5)
                     except CancelledError:
                         pass
@@ -2379,11 +2381,11 @@ class AdvancedBot(BaseBot):
                     self.dance_tasks[target_username].cancel()
                 self.party_dances[target_username] = (emote, True)
                 
-                async def single_party_loop():
+                async def single_party_loop(_emote=emote, _duration=duration, _target=target_user, _uname=target_username):
                     try:
-                        while target_username in self.party_dances and self.party_dances[target_username][0] == emote:
-                            await self.highrise.send_animation(str(emote), target_user.id)
-                            await sleep(duration + 1.5)
+                        while _uname in self.party_dances and self.party_dances[_uname][0] == _emote:
+                            await self.highrise.send_emote(_emote, _target.id)
+                            await sleep(_duration + 1.5)
                     except CancelledError:
                         pass
                 

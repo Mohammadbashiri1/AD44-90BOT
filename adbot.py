@@ -308,7 +308,7 @@ class AdvancedBot(BaseBot):
             "220": "emote-salute",
             "221": "idle-floorsleeping2",
             "222": "dance-floss",
-            "223": "emote-sit",
+            "223": "emote-lay",
             "۱": "idle_zombie",
             "۲": "idle_layingdown2",
             "۳": "idle_layingdown",
@@ -531,7 +531,7 @@ class AdvancedBot(BaseBot):
             "۲۲۰": "emote-salute",
             "۲۲۱": "idle-floorsleeping2",
             "۲۲۲": "dance-floss",
-            "۲۲۳": "emote-sit",
+            "۲۲۳": "emote-lay",
             "zombie": "idle_zombie",
             "relaxed": "idle_layingdown2",
             "attentive": "idle_layingdown",
@@ -754,7 +754,7 @@ class AdvancedBot(BaseBot):
             "relaxing": "idle-floorsleeping2",
             "attention": "emote-salute",
             "floss": "dance-floss",
-            "rest": "emote-sit"
+            "rest": "emote-lay"
             
         }
 
@@ -980,7 +980,7 @@ class AdvancedBot(BaseBot):
             "emote-cutesalute": 15.0,
             "emote-salute": 15.0,
             "dance-floss": 11.0,
-            "emote-sit": 5.0
+            "emote-lay": 5.5
         }
 
     def load_config(self):

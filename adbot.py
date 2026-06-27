@@ -1222,6 +1222,8 @@ class AdvancedBot(BaseBot):
                 await self.start_dance(user, self.emotes[msg_lower])
             elif msg_lower == "stop":
                 await self.stop_dance(user)
+            elif msg_lower.startswith("!find"):
+                await self.cmd_find_emote(user, msg.split())
             elif msg_lower.startswith("!"):
                 parts = msg.split()
                 parts_lower = [p.lower() for p in parts]
@@ -2456,6 +2458,31 @@ class AdvancedBot(BaseBot):
         except Exception as e:
             await self.highrise.chat(f"خطا در توقف رقص برای @{target_username}: {str(e)}")
             logger.error(f"خطا در cmd_partys برای {target_username}: {str(e)}")
+
+    async def cmd_find_emote(self, user: User, parts: list):
+        """دستور جستجوی آیدی سروری دنس"""
+        admins_lower = [admin.lower() for admin in self.config.get("admin_usernames", [])]
+        if user.username.lower() not in admins_lower:
+            await self.highrise.chat("❌ این دستور فقط برای ادمین‌ها!")
+            return
+
+        if len(parts) < 2:
+            await self.highrise.chat("❌ راهنما: !find [اسم دنس]")
+            return
+
+        search_keyword = " ".join(parts[1:]).lower()
+        
+        try:
+            emotes_list = await self.highrise.get_emotes()
+            found_emotes = [f"{e.title}: {e.id}" for e in emotes_list if search_keyword in e.id.lower() or (e.title and search_keyword in e.title.lower())]
+
+            if found_emotes:
+                await self.highrise.chat("📌 نتایج یافت شده:\n" + "\n".join(found_emotes[:5]))
+            else:
+                await self.highrise.chat("❌ دنسی پیدا نشد!")
+        except Exception as e:
+            logger.error(f"خطا در جستجو: {e}")
+            await self.highrise.chat(f"❌ خطا: {e}")
 
     async def cmd_loopchat(self, user: User, parts: list):
         admins_lower = [admin.lower() for admin in self.config.get("admin_usernames", [])]

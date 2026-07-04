@@ -193,8 +193,8 @@ class AdvancedBot(BaseBot):
             "105": "emoji-pray",
             "106": "emoji-poop",
             "107": "emoji-naughty",
-            "118": "emoji-mind-blown",
-            "119": "emoji-lying",
+            "108": "emoji-mind-blown",
+            "109": "emoji-lying",
             "110": "emoji-halo",
             "111": "emoji-hadoken",
             "112": "emoji-give-up",
@@ -480,7 +480,7 @@ class AdvancedBot(BaseBot):
             "۱۴۴": "idle-toilet",
             "۱۴۵": "emote-attention",
             "۱۴۶": "sit-open",
-            "۱۳۷": "emote-astronaut",
+            "۱۴۷": "emote-astronaut",
             "۱۴۸": "dance-zombie",
             "۱۴۹": "emoji-ghost",
             "۱۵۰": "emote-hearteyes",
@@ -588,7 +588,7 @@ class AdvancedBot(BaseBot):
             "sleepy": "idle-sleep",
             "poutyFace": "idle-sad",
             "posh": "idle-posh",
-            "sleepy": "idle-loop-tired",
+            "tiredloop": "idle-loop-tired",
             "tapLoop": "idle-loop-tapdance",
             "sit": "idle-loop-sitfloor",
             "shy": "idle-loop-shy",
@@ -617,7 +617,7 @@ class AdvancedBot(BaseBot):
             "splitsdrop": "emote-splitsdrop",
             "snowballFight": "emote-snowball",
             "snowAngel": "emote-snowangel",
-            "shy": "emote-shy",
+            "shyemote": "emote-shy",
             "secrehandshake": "emote-secrethandshake",
             "sad": "emote-sad",
             "ropepull": "emote-ropepull",
@@ -768,7 +768,6 @@ class AdvancedBot(BaseBot):
             "PunkGuitar": "emote-punkguitar",
             "zombieru": "emote-zombierun",
             "fashionista": "dance-jinglebell",
-            "gravity": "emote-gravity",
             "icecream": "dance-icecream",
             "wrong": "dance-wrong",
             "uwu": "idle-uwu",
@@ -783,7 +782,7 @@ class AdvancedBot(BaseBot):
             "creepycute": "emote-creepycute",
             "frustrated": "emote-frustrated",
             "pose10": "emote-pose10",
-            "repose": "sit-relaxed",
+            "relaxedsit": "sit-relaxed",
             "stargazing": "emote-stargaze",
             "slap": "emote-slap",
             "boxer": "emote-boxer",
@@ -804,9 +803,7 @@ class AdvancedBot(BaseBot):
             "relaxing": "idle-floorsleeping2",
             "attention": "emote-salute",
             "floss": "dance-floss",
-            "rest": "sit-idle-cute",
-            "sit": "idle-loop-sitfloor"
-            
+            "rest": "sit-idle-cute"
         }
 
         self.emote_durations = {
@@ -995,8 +992,6 @@ class AdvancedBot(BaseBot):
             "emote-cutey": 15.0,
             "emote-punkguitar": 15.0,
             "emote-zombierun": 15.0,
-            "dance-jinglebell": 15.0,
-            "emote-gravity": 15.0,
             "dance-icecream": 15.0,
             "dance-wrong": 15.0,
             "idle-uwu": 15.0,
@@ -1412,8 +1407,7 @@ class AdvancedBot(BaseBot):
             "!unfreeze @username - آزاد کردن کاربر از فریز\n"
             "!party @username عدد - اجرای رقص اجباری برای کاربر\n"
             "!party all عدد - اجرای رقص برای همه\n"
-            "!partys @username - توقف رقص اجباری کاربر\n"
-            "!changeroom room_id - تغییر روم (فقط ادمین)\n\n"
+            "!partys @username - توقف رقص اجباری کاربر\n\n"
             "📩 برای اطلاعات بیشتر به @ad0ri پیام بدید!"
         )
         for chunk in [help_text[i:i+200] for i in range(0, len(help_text), 200)]:
@@ -2434,7 +2428,10 @@ class AdvancedBot(BaseBot):
                         continue
                     await self.stop_dance(target_user)  # توقف رقص قبلی
                     self.party_dances[username] = (emote, False)  # False نشان‌دهنده رقص قابل توقف توسط کاربر
-                    async def dance_loop():
+                    async def dance_loop(username=username, target_user=target_user):
+                        # توجه: username و target_user به عنوان مقدار پیش‌فرض پاس داده شدن
+                        # تا هر تسک مقدار مخصوص به خودش رو نگه داره، نه مقدار مشترک حلقه بیرونی
+                        # (جلوگیری از باگ late-binding closure در پایتون)
                         try:
                             while username in self.party_dances and self.party_dances[username][0] == emote:
                                 if username not in self.active_users:

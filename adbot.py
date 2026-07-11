@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 # تنظیمات پیش‌فرض
 CONFIG_FILE = "bot_config.json"
 DEFAULT_CONFIG = {
-    "host_usernames": ["ad0ri"],
-    "admin_usernames": ["ad0ri"],
+    "host_usernames": ["44_90"],
+    "admin_usernames": ["44_90"],
     "vip_usernames": [],
     "banned_users": [],
     "teleport_locations": {
@@ -35,7 +35,7 @@ DEFAULT_CONFIG = {
     "language": "fa",
     "welcome_message": "✨ 🌟 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 {username} ❤️ 𝐆𝐥𝐚𝐝 𝐭𝐨 𝐡𝐚𝐯𝐞 𝐲𝐨𝐮 𝐡𝐞𝐫𝐞!\n🕺 𝐔𝐬𝐞 𝐍𝐮𝐦𝐛𝐞𝐫𝐬 (𝟏-𝟐𝟒𝟖) 𝐨𝐫 𝐄𝐦𝐨𝐭𝐞 𝐍𝐚𝐦𝐞𝐬 𝐭𝐨 𝐝𝐚𝐧𝐜𝐞!\n👑 𝐓𝐡𝐢𝐬 𝐛𝐨𝐭 𝐰𝐚𝐬 𝐜𝐫𝐞𝐚𝐭𝐞𝐝 & 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐝 𝐛𝐲 @𝐚𝐝𝟎𝐫𝐢 😉\n📺 𝐒𝐮𝐛𝐬𝐜𝐫𝐢𝐛𝐞 𝐭𝐨 𝐨𝐮𝐫 𝐘𝐨𝐮𝐓𝐮𝐛𝐞: @𝐚𝐝𝐨𝐫𝐢_𝐡𝐢𝐭𝐨𝐭𝐬𝐨 🚀",
     "announcement_interval": 300,
-    "announcement_message": "برای اجاره بات به آیدی @ad0ri پیام دهید!"
+    "announcement_message": "برای اجاره بات به آیدی @44_90 پیام دهید!"
 }
 
 class AdvancedBot(BaseBot):
@@ -2713,8 +2713,8 @@ async def main():
     from http.server import BaseHTTPRequestHandler, HTTPServer
     
     logger.info("تلاش برای بارگذاری متغیرهای محیطی...")
-    room_id = os.getenv("ROOM_ID", "68e771922d585712212e8070")
-    api_token = os.getenv("API_TOKEN", "2655d9a3c633bf8365bb863c963927a18301474340cb5515736cc721d39e7150")
+    room_id = os.getenv("ROOM_ID", "6a51924faea54910ce3e7021")
+    api_token = os.getenv("API_TOKEN", "4671fba5d9dd3424a0e9fe1cacc5cd84a4c3f5c2899720eb2d4ff71927c2136c")
     
     if not room_id or not api_token:
         logger.error("ROOM_ID یا API_TOKEN تنظیم نشده‌اند.")

@@ -34,9 +34,7 @@ DEFAULT_CONFIG = {
     },
     "language": "fa",
     "welcome_message": "✨ 🌟 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 {username} ❤️ 𝐆𝐥𝐚𝐝 𝐭𝐨 𝐡𝐚𝐯𝐞 𝐲𝐨𝐮 𝐡𝐞𝐫𝐞!\n🕺 𝐔𝐬𝐞 𝐍𝐮𝐦𝐛𝐞𝐫𝐬 (𝟏-𝟐𝟒𝟖) ",
-    "announcement_interval": 300,
-    "announcement_message": "برای اجاره بات به آیدی @44_90 پیام دهید!"
-}
+    "announcement_interval": 300
 
 class AdvancedBot(BaseBot):
     def __init__(self):
@@ -1093,7 +1091,7 @@ class AdvancedBot(BaseBot):
         messages = {
             "fa": {
                 "welcome": self.config["welcome_message"],
-                "invalid_command": "❌ دستور نامعلوم! برای دیدن دستورات بات !help استفاده کنید یا به @ad0ri پیام بدید.",
+                "invalid_command": "❌ دستور نامعلوم! برای دیدن دستورات بات !help.",
                 "no_permission": "فقط ادمین‌ها می‌توانند از این دستور استفاده کنند!",
                 "user_not_found": "کاربر {username} آنلاین نیست.",
                 "invalid_format": "فرمت نادرست: {format}",
@@ -1302,7 +1300,7 @@ class AdvancedBot(BaseBot):
             elif msg_lower in ["stop", "استوپ"]:
                 await self.stop_dance(user)
             elif msg_lower in ["سازنده", "creature", "creator", "سازندت", "سازنده بات"]:
-                await self.highrise.chat("👑 سازنده این بات: @ad0ri 👑")
+                await self.highrise.chat("👑 سازنده این بات: @44_90 👑")
             elif msg_lower.startswith("!"):
                 parts = msg.split()
                 parts_lower = [p.lower() for p in parts]
@@ -1321,21 +1319,7 @@ class AdvancedBot(BaseBot):
         if user_id == self.user_id:
             return
 
-        # 👑 متن تبلیغاتی و معرفی ویژگی‌های ربات به همراه اطلاعات رنت
-        auto_reply = (
-            "سلام عزیز! ❤️\n\n"
-            "🤖 من یک ربات پیشرفته و فول امکانات برای مدیریت و ارتقای روم هستم!\n\n"
-            "✨ **بخشی از قابلیت‌های خفن من:**\n"
-            "🔹 دارای ۲۴۸ دنس جذاب و فعال با تکرار همیشگی و بدون حتی ۱ ثانیه تاخیر! 💃\n"
-            "🔹 سیستم خوش‌آمدگویی هوشمند و خودکار به محض ورود پلیرها 🚪\n"
-            "🔹 قابلیت رقص همگانی و پارتی خودکار برای کل اعضای روم 🕺\n"
-            "🔹 امنیت بالا و مدیریت کامل ادمین‌ها و دستورات اختصاصی 🛠️\n"
-            "🔹 میزبانی ۲۴ ساعته و آنلاین بدون قطعی روی سرورهای قدرتمند ⚡\n\n"
-            "🤝 **شرایط رنت (اجاره):**\n"
-            "برای اجاره یا همان رنت این ربات فوق‌العاده برای روم خود، لطفاً همین الان به آیدی زیر پیام بدید:\n"
-            "👉 @ad0ri 👈"
-        )
-        
+    
         try:
             # ✉️ ارسال پاسخ مستقیم به دایرکت (Inbox) کاربر
             await self.highrise.send_message(user_id, auto_reply)
@@ -1974,7 +1958,7 @@ class AdvancedBot(BaseBot):
         try:
             tip_amount = int(parts[1])
             if tip_amount not in [1, 5, 10, 50, 100]:
-                await self.highrise.chat("مقدار گلد باید 1، 5، 10، 50 یا 100 باشد.")
+                await self.highrise.chat("مقدار گلد باید 10، 50، 100، 500 یا 1000 باشد.")
                 return
 
             gold_bar_map = {
@@ -2132,7 +2116,7 @@ class AdvancedBot(BaseBot):
         self.config["banned_users"].append(target_username)
         self.save_config()
         await self.highrise.chat(self.get_message("ban_success", username=target_username))
-        logger.info(f"کاربر {target_username} توسط {user.username} بن شد.")
+        logger.info(f"کاربر {target_username} توسط {user.username} حذف شد.")
 
     async def cmd_unban(self, user: User, parts: list):
         if user.username.lower() not in self.config["admin_usernames"]:
@@ -2336,9 +2320,9 @@ class AdvancedBot(BaseBot):
             logger.error(f"خطا در cmd_removeadmin برای {target_username}: {str(e)}")
 
     async def cmd_addhost(self, user: User, parts: list):
-        """⚠️ اختصاصی: فقط خود مالک اصلی بات (ad0ri) می‌تواند رتبه Host بدهد؛
+        """⚠️ اختصاصی: فقط خود مالک اصلی بات (44_90) می‌تواند رتبه Host بدهد؛
         حتی سایر Host‌ها هم اجازه اجرای این دستور را ندارند."""
-        if user.username.lower() != "ad0ri":
+        if user.username.lower() != "44_90":
             await self.highrise.chat("❌ دسترسی غیرمجاز!")
             logger.info(f"کاربر {user.username} سعی کرد !addhost را اجرا کند اما دسترسی ندارد.")
             return
@@ -2366,8 +2350,8 @@ class AdvancedBot(BaseBot):
             logger.error(f"خطا در cmd_addhost برای {target_username}: {str(e)}")
 
     async def cmd_removehost(self, user: User, parts: list):
-        """⚠️ اختصاصی: فقط خود مالک اصلی بات (ad0ri) می‌تواند رتبه Host را بگیرد."""
-        if user.username.lower() != "ad0ri":
+        """⚠️ اختصاصی: فقط خود مالک اصلی بات (44_90) می‌تواند رتبه Host را بگیرد."""
+        if user.username.lower() != "44_90":
             await self.highrise.chat("❌ دسترسی غیرمجاز!")
             logger.info(f"کاربر {user.username} سعی کرد !removehost را اجرا کند اما دسترسی ندارد.")
             return
